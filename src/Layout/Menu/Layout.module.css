@@ -1,0 +1,63 @@
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    padding: 30px;
+    border-right: 2px solid var(--separator-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.user {
+    margin-bottom: 45px;
+}
+
+.name {
+    margin-top: 25px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--text-color)
+}
+
+.email {
+    color: #9EA1B1;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    transition: color 0.25s;
+}
+
+.link:hover,
+.active {
+    color: var(--primary-color);
+}
+
+.exit {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
