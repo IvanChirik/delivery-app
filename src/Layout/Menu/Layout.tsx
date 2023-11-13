@@ -30,10 +30,9 @@ const Layout = () => {
                     <img src='./exit-icon.svg' alt='Иконка выхода' />
                     Выход</Button>
             </div>
-            <div>
+            <div className={styles.content}>
                 <Outlet />
             </div>
-
         </div >
     );
 };
