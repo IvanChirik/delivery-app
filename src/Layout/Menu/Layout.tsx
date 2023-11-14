@@ -8,7 +8,7 @@ const Layout = () => {
         <div className={styles.layout}>
             <div className={styles.sidebar}>
                 <div className={styles.user}>
-                    <img src='user-icon.png' alt='Иконка пользователя' />
+                    <img src='../../../public/user-icon.png' alt='Иконка пользователя' />
                     <div className={styles.name}>Ivan</div>
                     <div className={styles.email}>ivancherviakovskiy@mail.ru</div>
                 </div>
@@ -16,18 +16,18 @@ const Layout = () => {
                     <NavLink to='/' className={({ isActive }) => cn(styles.link, {
                         [styles.active]: isActive
                     })}>
-                        <img src='./menu-icon.svg' alt='Иконка меню' />
+                        <img src='../../../public//menu-icon.svg' alt='Иконка меню' />
                         Главная
                     </NavLink>
                     <NavLink to='/cart' className={({ isActive }) => cn(styles.link, {
                         [styles.active]: isActive
                     })}>
-                        <img src='./cart-icon.svg' alt='Иконка корзины' />
+                        <img src='../../../public//cart-icon.svg' alt='Иконка корзины' />
                         Корзина
                     </NavLink>
                 </div>
                 <Button className={styles.exit}>
-                    <img src='./exit-icon.svg' alt='Иконка выхода' />
+                    <img src='../../../public//exit-icon.svg' alt='Иконка выхода' />
                     Выход</Button>
             </div>
             <div className={styles.content}>

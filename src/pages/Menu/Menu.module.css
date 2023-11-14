@@ -1,4 +1,12 @@
-.menu {
+.menu-header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.content-menu {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px
 }
