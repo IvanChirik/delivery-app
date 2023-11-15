@@ -1,0 +1,17 @@
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+.logo,
+.content {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    border-left: 1px solid var(--separator-color);
+}

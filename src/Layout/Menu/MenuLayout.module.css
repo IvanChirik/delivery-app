@@ -5,7 +5,7 @@
 
 .sidebar {
     padding: 30px;
-    border-right: 2px solid var(--separator-color);
+    border-right: 1px solid var(--separator-color);
     display: flex;
     flex-direction: column;
     justify-content: space-around;

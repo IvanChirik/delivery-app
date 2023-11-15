@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import styles from './Layout.module.css';
+import styles from './MenuLayout.module.css';
 import Button from '../../components/Button/Button';
 import cn from 'classnames';
 
-const Layout = () => {
+const MenuLayout = () => {
     return (
         <div className={styles.layout}>
             <div className={styles.sidebar}>
@@ -37,4 +37,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default MenuLayout;

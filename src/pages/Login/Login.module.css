@@ -1,0 +1,51 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.login-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: #C4C4C4;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    min-width: 500px;
+}
+
+.login-button {
+    margin-top: 50px;
+    min-width: 80%;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    color: #5B5B5E;
+}
+
+.register-link {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.register-link:hover {
+    color: var(--primary-hover-color);
+}
+
+::-webkit-input-placeholder {
+    color: #C4C4C4;
+}
