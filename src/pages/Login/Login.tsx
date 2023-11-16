@@ -3,13 +3,10 @@ import styles from './Login.module.css';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Heading from '../../components/Heading/Heading';
-import { FormEvent, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { PREFIX } from '../../helpers/API';
-import { IAuthData } from '../../interfaces/auth.interface';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
-import { userActions } from '../../store/user.state';
+import { FormEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { login, userActions } from '../../store/user.state';
 
 type EventTarget = {
     email: {
@@ -20,37 +17,29 @@ type EventTarget = {
     }
 }
 const Login = () => {
-    const [error, setError] = useState<string | null>(null);
-    const dispatch = useDispatch<AppDispatch>();
+    const { token, loginErrorMessage } = useSelector((s: RootState) => s.user);
     const navigate = useNavigate();
+    useEffect(() => {
+        if (token)
+            navigate('/');
+    }, [token, navigate]);
+    const dispatch = useDispatch<AppDispatch>();
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
-        setError(null);
+        dispatch(userActions.cleanLoginErrorMessage());
         const target = e.target as typeof e.target & EventTarget;
         const { email, password } = target;
         await sendLogin(email.value, password.value);
     };
     const sendLogin = async (email: string, password: string) => {
-        try {
-            const { data } = await axios.post<IAuthData>(`${PREFIX}/auth/login`, {
-                email,
-                password
-            });
-            dispatch(userActions.addToken(data.access_token));
-            navigate('/');
-        }
-        catch (e) {
-            if (e instanceof AxiosError) {
-                setError(e.response?.data.message);
-            }
-        }
+        dispatch(login({ email, password }));
     };
     return (
         <div className={styles.login}>
             <Heading>
                 Вход
             </Heading>
-            {error && <div className={styles.error}>{error}</div>}
+            {loginErrorMessage && <div className={styles.error}>{loginErrorMessage}</div>}
             <form className={styles['login-form']} onSubmit={submitHandler}>
                 <div className={styles.input}>
                     <label htmlFor='email'>Ваш email</label>
