@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -6,6 +6,10 @@ import Heading from '../../components/Heading/Heading';
 import { FormEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../helpers/API';
+import { IAuthData } from '../../interfaces/auth.interface';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { userActions } from '../../store/user.state';
 
 type EventTarget = {
     email: {
@@ -17,6 +21,8 @@ type EventTarget = {
 }
 const Login = () => {
     const [error, setError] = useState<string | null>(null);
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -26,16 +32,16 @@ const Login = () => {
     };
     const sendLogin = async (email: string, password: string) => {
         try {
-            const { data } = await axios.post(`${PREFIX}/auth/login`, {
+            const { data } = await axios.post<IAuthData>(`${PREFIX}/auth/login`, {
                 email,
                 password
             });
-            console.log(data);
+            dispatch(userActions.addToken(data.access_token));
+            navigate('/');
         }
         catch (e) {
             if (e instanceof AxiosError) {
                 setError(e.response?.data.message);
-                console.log(e.response?.data.message);
             }
         }
     };
