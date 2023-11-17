@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userSlice, { JWT_PERSISTENT_STATE } from './user.state.ts';
 import { saveState } from '../helpers/storage.ts';
+import cartSlice from './cart.slice.ts';
 
 
 export const store = configureStore({
     reducer: {
-        user: userSlice
+        user: userSlice,
+        cart: cartSlice
     }
 });
 store.subscribe(() => {

@@ -2,13 +2,20 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import styles from './MenuLayout.module.css';
 import Button from '../../components/Button/Button';
 import cn from 'classnames';
-import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/user.state';
+import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfile, userActions } from '../../store/user.state';
+import { useEffect } from 'react';
 
 const MenuLayout = () => {
+    console.log('e');
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const token = useSelector((s: RootState) => s.user.token);
+    const profileData = useSelector((s: RootState) => s.user.userProfile);
+    useEffect(() => {
+        dispatch(getUserProfile());
+    }, [dispatch, token]);
     const onLogout = () => {
         dispatch(userActions.removeToken());
         navigate('/auth/login');
@@ -18,8 +25,8 @@ const MenuLayout = () => {
             <div className={styles.sidebar}>
                 <div className={styles.user}>
                     <img src='../../../public/user-icon.png' alt='Иконка пользователя' />
-                    <div className={styles.name}>Ivan</div>
-                    <div className={styles.email}>ivancherviakovskiy@mail.ru</div>
+                    <div className={styles.name}>{profileData?.name}</div>
+                    <div className={styles.email}>{profileData?.email}</div>
                 </div>
                 <div className={styles.menu}>
                     <NavLink to='/' className={({ isActive }) => cn(styles.link, {
