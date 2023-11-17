@@ -8,11 +8,11 @@ import { getUserProfile, userActions } from '../../store/user.state';
 import { useEffect } from 'react';
 
 const MenuLayout = () => {
-    console.log('e');
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const token = useSelector((s: RootState) => s.user.token);
     const profileData = useSelector((s: RootState) => s.user.userProfile);
+    const cartItems = useSelector((s: RootState) => s.cart.cartItems);
     useEffect(() => {
         dispatch(getUserProfile());
     }, [dispatch, token]);
@@ -40,6 +40,7 @@ const MenuLayout = () => {
                     })}>
                         <img src='../../../public//cart-icon.svg' alt='Иконка корзины' />
                         Корзина
+                        <div>{cartItems.reduce((sum, item) => sum + item.count, 0)}</div>
                     </NavLink>
                 </div>
                 <Button className={styles.exit} onClick={onLogout}>
