@@ -1,0 +1,39 @@
+.cart {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 500px;
+}
+
+.calculate {
+    border-bottom: 1px solid #F1F2F3;
+    padding: 10px 0px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.promo {
+    position: relative;
+}
+
+.input {
+    width: 90%;
+    border-radius: 100px;
+    border: 1px solid #EEE;
+    background: none;
+    box-shadow: 15px 20px 45px 0px rgba(233, 233, 233, 0.25);
+    padding: 20px;
+    color: var(--text-secondary-color);
+    outline: none;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.promo-button {
+    position: absolute;
+    top: 10px;
+    right: 20px
+}

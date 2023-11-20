@@ -5,7 +5,7 @@ import Search from '../../components/Search/Search';
 import styles from './Menu.module.css';
 import { PREFIX } from '../../helpers/API.ts';
 import { IProduct } from '../../interfaces/product.interface.ts';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import cn from 'classnames';
 import Loader from '../../components/Loader/Loader.tsx';
 
@@ -14,13 +14,18 @@ const Menu = () => {
     const [products, setProducts] = useState<IProduct[]>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
+    const [filter, setFilter] = useState<string>();
     useEffect(() => {
-        getMenu();
-    }, []);
-    const getMenu = async () => {
+        getMenu(filter);
+    }, [filter]);
+    const getMenu = async (name?: string) => {
         try {
             setIsLoading(true);
-            const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`);
+            const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`, {
+                params: {
+                    name
+                }
+            });
             setProducts(data);
             setError(undefined);
 
@@ -33,17 +38,21 @@ const Menu = () => {
             return;
         }
     };
+    const filterProducts = (e: ChangeEvent<HTMLInputElement>) => {
+        setFilter(e.target.value);
+    };
     return (
         <>
             <div className={styles['menu-header']}>
                 <Heading>Меню</Heading>
-                <Search placeholder='Введите блюдо или состав' />
+                <Search placeholder='Введите блюдо или состав' onChange={filterProducts} />
             </div>
             <div className={cn(styles['content-menu'], {
                 [styles.loading]: isLoading
             })}>
                 {error && <p>{error}</p>}
-                {!isLoading && products?.map(product => <ProductCard
+                {isLoading && <Loader />}
+                {!isLoading && products?.length !== 0 && products?.map(product => <ProductCard
                     key={product.id}
                     id={product.id}
                     price={product.price}
@@ -51,7 +60,7 @@ const Menu = () => {
                     img={product.image}
                     name={product.name}
                     description={product.ingredients.join(', ')} />)}
-                {isLoading && <Loader />}
+                {!isLoading && products?.length === 0 && <div>Не найдено блюд с такими названием и составом</div>}
             </div>
         </>
     );

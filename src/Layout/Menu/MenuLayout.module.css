@@ -66,3 +66,17 @@
     padding: 40px 60px;
     width: 100%;
 }
+
+.cart-counter {
+    min-width: 15px;
+    min-height: 15px;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: none;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--white);
+    padding: 3px;
+}
