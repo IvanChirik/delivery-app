@@ -1,14 +1,30 @@
 .cart {
+    margin: 0px 50px;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    max-width: 500px;
+    max-width: 600px;
 }
 
 .calculate {
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #F1F2F3;
-    padding: 10px 0px;
+    padding: 8px 0px;
     font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.itog {
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.itog span {
+    color: #9796A1;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
 }
@@ -34,6 +50,13 @@
 
 .promo-button {
     position: absolute;
-    top: 10px;
-    right: 20px
+    top: 12px;
+    right: 30px
+}
+
+.send-cart {
+    margin-top: 40px;
+    width: 50%;
+    align-self: center;
+    box-shadow: 0px 10px 40px 0px rgba(122, 129, 190, 0.16);
 }

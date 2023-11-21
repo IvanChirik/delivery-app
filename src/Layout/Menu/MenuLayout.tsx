@@ -40,7 +40,7 @@ const MenuLayout = () => {
                     })}>
                         <img src='../../../public//cart-icon.svg' alt='Иконка корзины' />
                         Корзина
-                        <div className={styles['cart-counter']}>{cartItems.reduce((sum, item) => sum + item.count, 0)}</div>
+                        <div className={styles['cart-counter']}>{cartItems?.reduce((sum, item) => sum + item.count, 0)}</div>
                     </NavLink>
                 </div>
                 <Button className={styles.exit} onClick={onLogout}>
