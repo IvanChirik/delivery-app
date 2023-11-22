@@ -48,6 +48,9 @@ export const cartSlice = createSlice({
             if (!(state.cartItems.find(i => i.id === action.payload)))
                 return;
             state.cartItems = state.cartItems.filter(i => i.id !== action.payload);
+        },
+        clear: (state) => {
+            state.cartItems = [];
         }
     }
 });

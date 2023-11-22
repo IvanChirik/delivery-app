@@ -32,7 +32,7 @@ const CartItem = ({ ...props }: ICartItem) => {
                 <div className={styles.amount}>
                     <div>{count}</div>
                 </div>
-                <button className={cn(styles['action-button'], styles.plus)}>
+                <button className={cn(styles['action-button'], styles.plus)} >
                     <img src={'./plus-icon.svg'} alt={'Иконка добавления товара в корзину'} onClick={addItem} />
                 </button>
                 <button className={styles['action-button']} onClick={deleteProductFromCart}>

@@ -16,6 +16,13 @@
     font-weight: 400;
 }
 
+.calculate span {
+    color: #BEBEBE;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+}
+
 .itog {
     font-size: 19px;
     font-style: normal;
@@ -59,4 +66,12 @@
     width: 50%;
     align-self: center;
     box-shadow: 0px 10px 40px 0px rgba(122, 129, 190, 0.16);
+}
+
+.empty-cart {
+    align-self: center;
+    font-size: 31px;
+    font-style: normal;
+    font-weight: 300;
+    color: var(--text-secondary-color);
 }

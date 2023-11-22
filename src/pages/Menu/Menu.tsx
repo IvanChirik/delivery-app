@@ -28,7 +28,6 @@ const Menu = () => {
             });
             setProducts(data);
             setError(undefined);
-
             setIsLoading(false);
         }
         catch (e) {

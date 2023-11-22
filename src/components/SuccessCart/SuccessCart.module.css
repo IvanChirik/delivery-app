@@ -1,0 +1,24 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+    height: 90vh;
+}
+
+.image {
+    margin-top: 40px;
+}
+
+.description {
+    color: var(--text-color);
+    text-align: center;
+    font-size: 31px;
+    font-style: normal;
+    font-weight: 300;
+    max-width: 300px;
+}
+
+.button {
+    box-shadow: 0px 10px 40px 0px rgba(122, 129, 190, 0.16);
+}

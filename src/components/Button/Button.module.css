@@ -12,6 +12,11 @@
     line-height: normal;
 }
 
+.button:disabled {
+    background: var(--primary-color);
+    cursor: no-drop;
+}
+
 .button:hover {
     background-color: var(--primary-hover-color);
 }
