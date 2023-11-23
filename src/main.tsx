@@ -5,7 +5,7 @@ import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
 import Error from './pages/Error/Error.tsx';
 import MenuLayout from './Layout/Menu/MenuLayout.tsx';
 import Cart from './pages/Cart/Cart.tsx';
-import Product from './components/Product/Product.tsx';
+import Product from './pages/Product/Product.tsx';
 import axios from 'axios';
 import { PREFIX } from './helpers/API.ts';
 import { IProduct } from './interfaces/product.interface.ts';

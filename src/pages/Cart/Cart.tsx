@@ -95,7 +95,7 @@ const Cart = () => {
                 <div className={styles.promo}>
                     <input className={styles.input} placeholder='Промокод' />
                     <Button className={styles['promo-button']} >Применить</Button></div>
-                <div>
+                <div className={styles.footer}>
                     <div className={styles.calculate}>
                         <div>Стоимость товаров</div>
                         <div className={styles.itog}>{priceOfAllItems}&nbsp;<span>₽</span></div>

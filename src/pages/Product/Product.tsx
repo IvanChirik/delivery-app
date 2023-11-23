@@ -1,22 +1,32 @@
-import { Await, useLoaderData } from 'react-router-dom';
+import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import styles from './Product.module.css';
 import { IProduct } from '../../interfaces/product.interface';
 import { Suspense } from 'react';
-import Heading from '../Heading/Heading';
-import Button from '../Button/Button';
+import Heading from '../../components/Heading/Heading';
+import Button from '../../components/Button/Button';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { cartActions } from '../../store/cart.slice';
 
 const Product = () => {
     const data = useLoaderData() as { data: IProduct };
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const toBack = () => {
+        navigate('/', { replace: true });
+    };
     return <Suspense fallback={<>Loading....</>}>
         <Await resolve={data.data} >
             {({ data }: { data: IProduct }) =>
                 <div className={styles.product}>
                     <div className={styles['product-header']}>
-                        <button className={styles['back-button']}>
+                        <button className={styles['back-button']} onClick={toBack}>
                             <img src='/back-arrow.svg' alt='Иконка перхода на предыдущую страницу' />
                         </button>
                         <Heading className={styles.name}>{data.name}</Heading>
-                        <Button className={styles['cart-button']}>
+                        <Button className={styles['cart-button']} onClick={() => {
+                            dispatch(cartActions.addItem(data.id));
+                        }}>
                             <img src='/white-cart-icon.svg' alt={'Иконка корзины'} />
                             <span>В корзину</span>
                         </Button>
@@ -35,10 +45,12 @@ const Product = () => {
                                     <img src='/star-icon.svg' alt='Иконка рейтинга' />
                                 </div>
                             </div>
-                            <ul className={styles.list}>
-                                Состав
-                                {data.ingredients.map(i => <li className={styles['list-element']} key={i}>{i}</li>)}
-                            </ul>
+                            <div>
+                                <div className={styles.composition}><span>Состав:</span></div>
+                                <ul className={styles.list}>
+                                    {data.ingredients.map(i => <li className={styles['list-element']} key={i}>{i[0].toUpperCase() + i.slice(1)}</li>)}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
