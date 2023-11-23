@@ -18,15 +18,15 @@
     gap: 20px;
 }
 
-.input {
+.input-block {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     color: #C4C4C4;
     font-size: 17px;
     font-style: normal;
     font-weight: 400;
-    width: 500px;
+    min-width: 500px;
 }
 
 .register-button {
@@ -51,6 +51,27 @@
 
 .login-link:hover {
     color: var(--primary-hover-color);
+}
+
+.invalid-input {
+    border: 1px solid rgb(168, 15, 15);
+}
+
+.invalid-message {
+    color: rgb(168, 15, 15);
+    margin-top: -7px;
+    max-width: 90%;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.error {
+    text-align: center;
+    color: rgb(168, 15, 15);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
 }
 
 ::-webkit-input-placeholder {
