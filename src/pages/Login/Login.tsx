@@ -21,6 +21,12 @@ const Login = () => {
     const { token, loginErrorMessage } = useSelector((s: RootState) => s.user);
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            dispatch(userActions.cleanLoginErrorMessage());
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [dispatch, loginErrorMessage]);
     // useEffect(() => {
     //     const timer = setTimeout(() => {
     //         clearErrors();

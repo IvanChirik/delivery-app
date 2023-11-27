@@ -1,3 +1,6 @@
+import { IUserProfileData } from './user.interface';
+
 export interface IAuthData {
-    access_token: string
+    accessToken: string,
+    user: IUserProfileData
 }

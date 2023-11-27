@@ -4,18 +4,14 @@ import Button from '../../components/Button/Button';
 import cn from 'classnames';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile, userActions } from '../../store/user.state';
-import { useEffect } from 'react';
+import { userActions } from '../../store/user.state';
+
 
 const MenuLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const token = useSelector((s: RootState) => s.user.token);
     const profileData = useSelector((s: RootState) => s.user.userProfile);
     const cartItems = useSelector((s: RootState) => s.cart.cartItems);
-    useEffect(() => {
-        dispatch(getUserProfile());
-    }, [dispatch, token]);
     const onLogout = () => {
         dispatch(userActions.removeToken());
         navigate('/auth/login');

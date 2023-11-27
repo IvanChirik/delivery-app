@@ -2,9 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadState } from '../helpers/storage';
 import axios, { AxiosError } from 'axios';
 import { IAuthData } from '../interfaces/auth.interface';
-import { PREFIX } from '../helpers/API';
+import { BACKEND_URL, PREFIX } from '../helpers/API';
 import { IUserProfileData } from '../interfaces/user.interface';
 import { RootState } from './store';
+import { $api } from '../http';
+
 
 export const JWT_PERSISTENT_STATE = 'userData';
 export type UserState = {
@@ -23,9 +25,11 @@ const userInitialState: UserState = {
 export const login = createAsyncThunk('user/login',
     async (params: { email: string, password: string }) => {
         try {
-            const { data } = await axios.post<IAuthData>(`${PREFIX}/auth/login`, {
+            const { data } = await $api.post<IAuthData>(`${BACKEND_URL}/login`, {
                 email: params.email,
                 password: params.password
+            }, {
+                withCredentials: true
             });
             return data;
         }
@@ -37,10 +41,12 @@ export const login = createAsyncThunk('user/login',
 export const registerUser = createAsyncThunk('user/register',
     async (params: { email: string, password: string, name: string }) => {
         try {
-            const { data } = await axios.post<IAuthData>(`${PREFIX}/auth/register`, {
+            const { data } = await $api.post<IAuthData>(`${BACKEND_URL}/registration`, {
                 email: params.email,
                 password: params.password,
                 name: params.name
+            }, {
+                withCredentials: true
             });
             return data;
         }
@@ -80,7 +86,8 @@ const userSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             if (!action.payload)
                 return;
-            state.token = action.payload.access_token;
+            state.token = action.payload.accessToken;
+            state.userProfile = action.payload.user;
         });
         builder.addCase(login.rejected, (state, action) => {
             state.loginErrorMessage = action.error.message;
@@ -91,7 +98,8 @@ const userSlice = createSlice({
         builder.addCase(registerUser.fulfilled, (state, action) => {
             if (!action.payload)
                 return;
-            state.token = action.payload.access_token;
+            state.token = action.payload.accessToken;
+            state.userProfile = action.payload.user;
         });
         builder.addCase(registerUser.rejected, (state, action) => {
             state.registerErrorMessage = action.error.message;

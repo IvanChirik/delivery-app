@@ -8,6 +8,7 @@ import { IProduct } from '../../interfaces/product.interface.ts';
 import { useEffect, useState, ChangeEvent } from 'react';
 import cn from 'classnames';
 import Loader from '../../components/Loader/Loader.tsx';
+import { $api } from '../../http/index.ts';
 
 
 const Menu = () => {
@@ -15,6 +16,11 @@ const Menu = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
     const [filter, setFilter] = useState<string>();
+    const getUsers = async () => {
+        const { data } = await $api.get('/auth/users');
+        console.log(data);
+        return data;
+    };
     useEffect(() => {
         getMenu(filter);
     }, [filter]);
@@ -44,6 +50,7 @@ const Menu = () => {
         <>
             <div className={styles['menu-header']}>
                 <Heading>Меню</Heading>
+                <button onClick={getUsers}>get users</button>
                 <Search placeholder='Введите блюдо или состав' onChange={filterProducts} />
             </div>
             <div className={cn(styles['content-menu'], {
