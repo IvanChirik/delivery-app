@@ -9,6 +9,7 @@ import { useEffect, useState, ChangeEvent } from 'react';
 import cn from 'classnames';
 import Loader from '../../components/Loader/Loader.tsx';
 import { $api } from '../../http/index.ts';
+import DraggableItem from '../../components/DraggableItem/DraggableItem.tsx';
 
 
 const Menu = () => {
@@ -18,7 +19,6 @@ const Menu = () => {
     const [filter, setFilter] = useState<string>();
     const getUsers = async () => {
         const { data } = await $api.get('/auth/users');
-        console.log(data);
         return data;
     };
     useEffect(() => {
@@ -58,14 +58,15 @@ const Menu = () => {
             })}>
                 {error && <p>{error}</p>}
                 {isLoading && <Loader />}
-                {!isLoading && products?.length !== 0 && products?.map(product => <ProductCard
+                {!isLoading && products?.length !== 0 && products?.map(product => <DraggableItem key={product.id} id={product.id}><ProductCard
                     key={product.id}
                     id={product.id}
                     price={product.price}
                     rating={product.rating}
                     img={product.image}
                     name={product.name}
-                    description={product.ingredients.join(', ')} />)}
+                    description={product.ingredients.join(', ')} />
+                </DraggableItem>)}
                 {!isLoading && products?.length === 0 && <div>Не найдено блюд с такими названием и составом</div>}
             </div>
         </>

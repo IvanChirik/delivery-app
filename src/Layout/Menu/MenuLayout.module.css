@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: baseline;
+    max-width: 140px;
 }
 
 .menu {
