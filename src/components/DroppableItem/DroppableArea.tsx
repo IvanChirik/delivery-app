@@ -1,26 +1,37 @@
-import { ReactNode } from 'react';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cart.slice';
 import { IProduct } from '../../interfaces/product.interface';
+import { Dnd } from '../../helpers/dragAndDrop';
+import { IDroppableArea } from './DroppableArea.props';
+import styles from './DroppableArea.module.css';
+import cn from 'classnames';
+import { FunctionComponent } from 'react';
 
-const DroppableArea = ({ children }: { children: ReactNode }) => {
+export const DroppableArea: FunctionComponent<IDroppableArea> = ({ children }) => {
     const dispatch = useDispatch();
     const [{ canDrop, isOver }, drop] = useDrop({
-        accept: 'ITEM', // Тип элемента, который может быть сброшен на эту область
+        accept: Dnd.cartDragAndDrop,
         drop: (product: IProduct) => dispatch(cartActions.addItem(product.id)),
         collect: (monitor: DropTargetMonitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop()
         })
     });
-
     const isActive = canDrop && isOver;
     return (
-        <div ref={drop} style={{ border: isActive ? '1px solid #000' : 'none', borderRadius: '100px' }}>
+        <div ref={drop} className={cn(isActive ? styles.active : '')}>
             {children}
         </div>
     );
 };
 
-export default DroppableArea;
+// const WithDrop = <T extends Record<string, unknown>>(Component: FunctionComponent<T>) => {
+//     return WithDropComponent (props: T): JSX.Element => {
+//         return (
+//             <DroppableArea>
+//                 <Component {...props} />
+//             </DroppableArea>
+//         );
+//     };
+// };

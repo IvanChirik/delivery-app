@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store/user.state';
-import DroppableArea from '../../components/DroppableItem/DroppableArea';
+import { DroppableArea } from '../../components/DroppableItem/DroppableArea';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -53,7 +53,7 @@ const MenuLayout = () => {
                     <Outlet />
                 </div>
             </div >
-        </DndProvider>
+        </DndProvider >
     );
 };
 

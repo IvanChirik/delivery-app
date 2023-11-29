@@ -58,7 +58,7 @@ const Menu = () => {
             })}>
                 {error && <p>{error}</p>}
                 {isLoading && <Loader />}
-                {!isLoading && products?.length !== 0 && products?.map(product => <DraggableItem key={product.id} id={product.id}><ProductCard
+                {!isLoading && products?.length !== 0 && products?.map(product => <DraggableItem key={product.id} product={product}><ProductCard
                     key={product.id}
                     id={product.id}
                     price={product.price}

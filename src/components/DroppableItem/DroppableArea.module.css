@@ -1,0 +1,5 @@
+.active {
+    padding: 0px 15px;
+    border-radius: 100px;
+    border: 1px solid var(--text-secondary-color);
+}

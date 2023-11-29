@@ -1,16 +1,22 @@
-import { ReactNode } from 'react';
-import { DragLayerMonitor, useDrag } from 'react-dnd';
+import { useDrag } from 'react-dnd';
+import { Dnd } from '../../helpers/dragAndDrop';
+import { IDraggableItem } from './DraggableItem.props';
+import styles from './DraggableItem.module.css';
+import cn from 'classnames';
 
-const DraggableItem = ({ id, children }: { id: number, children: ReactNode }) => {
+
+const DraggableItem = ({ product, children }: IDraggableItem) => {
     const [{ isDragging }, drag] = useDrag({
-        type: 'ITEM', // Тип элемента для идентификации в процессе перетаскивания
-        item: { id },
-        collect: (monitor: DragLayerMonitor) => ({
+        type: Dnd.cartDragAndDrop,
+        item: { ...product },
+        collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
     });
     return (
-        <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+        <div ref={drag} className={cn({
+            [styles.draggable]: isDragging
+        })}>
             {children}
         </div>
     );
