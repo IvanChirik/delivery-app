@@ -7,6 +7,7 @@ import Button from '../../components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { cartActions } from '../../store/cart.slice';
+import Loader from '../../components/Loader/Loader';
 
 const Product = () => {
     const data = useLoaderData() as { data: IProduct };
@@ -15,7 +16,7 @@ const Product = () => {
     const toBack = () => {
         navigate('/', { replace: true });
     };
-    return <Suspense fallback={<>Loading....</>}>
+    return <Suspense fallback={<div className={styles.loader}><Loader /></div>}>
         <Await resolve={data.data} >
             {({ data }: { data: IProduct }) =>
                 <div className={styles.product}>
@@ -25,7 +26,7 @@ const Product = () => {
                         </button>
                         <Heading className={styles.name}>{data.name}</Heading>
                         <Button className={styles['cart-button']} onClick={() => {
-                            dispatch(cartActions.addItem(data.id));
+                            dispatch(cartActions.addItem(data._id));
                         }}>
                             <img src='/white-cart-icon.svg' alt={'Иконка корзины'} />
                             <span>В корзину</span>

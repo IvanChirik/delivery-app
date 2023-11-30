@@ -6,8 +6,6 @@ import Error from './pages/Error/Error.tsx';
 import MenuLayout from './Layout/Menu/MenuLayout.tsx';
 import Cart from './pages/Cart/Cart.tsx';
 import Product from './pages/Product/Product.tsx';
-import axios from 'axios';
-import { PREFIX } from './helpers/API.ts';
 import { IProduct } from './interfaces/product.interface.ts';
 import { Menu } from './pages/Menu/Menu.loader.tsx';
 import AuthLayout from './Layout/Auth/AuthLayout.tsx';
@@ -16,8 +14,17 @@ import Login from './pages/Login/Login.tsx';
 import { RequireAuth } from './helpers/RequireAuth.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import Loader from './components/Loader/Loader.tsx';
+import { $api } from './http/index.ts';
+import Heading from './components/Heading/Heading.tsx';
 
-
+const LOADER_STYLES = {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+};
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +32,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Suspense fallback={<>Загрузка....</>}><Menu /></Suspense>
+        element: <Suspense fallback={<div style={LOADER_STYLES}><Loader />
+        </div>}>
+          <Menu /></Suspense>
       },
       {
         path: 'cart',
@@ -38,10 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <Product />,
-        errorElement: <>Ошибка</>,
+        errorElement: <div style={LOADER_STYLES}><Heading>Продукт отсутствует</Heading></div>,
         loader: async ({ params }) => {
           return defer({
-            data: axios.get<IProduct>(`${PREFIX}/products/${params.id}`).then(data => data)
+            data: $api.get<IProduct>(`/products/${params.id}`).then(data => data)
           });
         }
       }

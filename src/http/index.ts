@@ -2,8 +2,8 @@ import axios from 'axios';
 import { IAuthData } from '../interfaces/auth.interface';
 import { saveState } from '../helpers/storage';
 import { JWT_PERSISTENT_STATE } from '../store/user.state';
+import { API_URL } from '../helpers/API';
 
-const API_URL = 'http://localhost:7000';
 
 export const $api = axios.create({
     withCredentials: true,

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadState } from '../helpers/storage';
 import axios, { AxiosError } from 'axios';
 import { IAuthData } from '../interfaces/auth.interface';
-import { BACKEND_URL, PREFIX } from '../helpers/API';
+import { PREFIX } from '../helpers/API';
 import { IUserProfileData } from '../interfaces/user.interface';
 import { RootState } from './store';
 import { $api } from '../http';
@@ -25,7 +25,7 @@ const userInitialState: UserState = {
 export const login = createAsyncThunk('user/login',
     async (params: { email: string, password: string }) => {
         try {
-            const { data } = await $api.post<IAuthData>(`${BACKEND_URL}/login`, {
+            const { data } = await $api.post<IAuthData>('/auth/login', {
                 email: params.email,
                 password: params.password
             }, {
@@ -41,7 +41,7 @@ export const login = createAsyncThunk('user/login',
 export const registerUser = createAsyncThunk('user/register',
     async (params: { email: string, password: string, name: string }) => {
         try {
-            const { data } = await $api.post<IAuthData>(`${BACKEND_URL}/registration`, {
+            const { data } = await $api.post<IAuthData>('/auth/registration', {
                 email: params.email,
                 password: params.password,
                 name: params.name
@@ -54,9 +54,19 @@ export const registerUser = createAsyncThunk('user/register',
             if (e instanceof AxiosError)
                 throw new Error(e.response?.data.message);
         }
-
     }
 );
+export const logout = createAsyncThunk('user/logout',
+    async () => {
+        try {
+            const { data } = await $api.post<void>('/auth/logout');
+            return data;
+        }
+        catch (e) {
+            if (e instanceof AxiosError)
+                throw new Error(e.response?.data.message);
+        }
+    });
 export const getUserProfile = createAsyncThunk<IUserProfileData, void, { state: RootState }>('user/profile',
     async (_, thunkAPI) => {
         const token = thunkAPI.getState().user.token;
@@ -103,6 +113,13 @@ const userSlice = createSlice({
         });
         builder.addCase(registerUser.rejected, (state, action) => {
             state.registerErrorMessage = action.error.message;
+        });
+        builder.addCase(logout.fulfilled, (state) => {
+            state.token = null;
+            state.userProfile = undefined;
+        });
+        builder.addCase(logout.rejected, (_, action) => {
+            console.log(action.error.message);
         });
     }
 });

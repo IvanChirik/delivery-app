@@ -1,9 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import Heading from '../../components/Heading/Heading';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import styles from './Menu.module.css';
-import { PREFIX } from '../../helpers/API.ts';
 import { IProduct } from '../../interfaces/product.interface.ts';
 import { useEffect, useState, ChangeEvent } from 'react';
 import cn from 'classnames';
@@ -17,17 +16,13 @@ const Menu = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
     const [filter, setFilter] = useState<string>();
-    const getUsers = async () => {
-        const { data } = await $api.get('/auth/users');
-        return data;
-    };
     useEffect(() => {
         getMenu(filter);
     }, [filter]);
     const getMenu = async (name?: string) => {
         try {
             setIsLoading(true);
-            const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`, {
+            const { data } = await $api.get<IProduct[]>('/products', {
                 params: {
                     name
                 }
@@ -50,7 +45,6 @@ const Menu = () => {
         <>
             <div className={styles['menu-header']}>
                 <Heading>Меню</Heading>
-                <button onClick={getUsers}>get users</button>
                 <Search placeholder='Введите блюдо или состав' onChange={filterProducts} />
             </div>
             <div className={cn(styles['content-menu'], {
@@ -58,9 +52,9 @@ const Menu = () => {
             })}>
                 {error && <p>{error}</p>}
                 {isLoading && <Loader />}
-                {!isLoading && products?.length !== 0 && products?.map(product => <DraggableItem key={product.id} product={product}><ProductCard
-                    key={product.id}
-                    id={product.id}
+                {!isLoading && products?.length !== 0 && products?.map(product => <DraggableItem key={product._id} product={product}><ProductCard
+                    key={product._id}
+                    id={product._id}
                     price={product.price}
                     rating={product.rating}
                     img={product.image}

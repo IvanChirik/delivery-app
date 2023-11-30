@@ -4,29 +4,33 @@ import Button from '../../components/Button/Button';
 import cn from 'classnames';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { userActions } from '../../store/user.state';
+import { logout } from '../../store/user.state';
 import { DroppableArea } from '../../components/DroppableItem/DroppableArea';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useEffect } from 'react';
 
 
 const MenuLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const profileData = useSelector((s: RootState) => s.user.userProfile);
+    const { token, userProfile } = useSelector((s: RootState) => s.user);
     const cartItems = useSelector((s: RootState) => s.cart.cartItems);
     const onLogout = () => {
-        dispatch(userActions.removeToken());
-        navigate('/auth/login');
+
+        dispatch(logout());
     };
+    useEffect(() => {
+        !token && navigate('/auth/login');
+    }, [token, navigate]);
     return (
         <DndProvider backend={HTML5Backend}>
             <div className={styles.layout}>
                 <div className={styles.sidebar}>
                     <div className={styles.user}>
                         <img src='../../../public/user-icon.png' alt='Иконка пользователя' />
-                        <div className={styles.name}>{profileData?.name}</div>
-                        <div className={styles.email}>{profileData?.email}</div>
+                        <div className={styles.name}>{userProfile?.name}</div>
+                        <div className={styles.email}>{userProfile?.email}</div>
                     </div>
                     <div className={styles.menu}>
                         <NavLink to='/' className={({ isActive }) => cn(styles.link, {

@@ -11,6 +11,7 @@ import CartItem from '../../components/CartItem/CartItem';
 import SuccessCart from '../../components/SuccessCart/SuccessCart';
 import { IOrder } from '../../interfaces/order.interface';
 import { cartActions } from '../../store/cart.slice';
+import { $api } from '../../http';
 
 const DELIVERY_PRICE: number = 170;
 
@@ -22,7 +23,7 @@ const Cart = () => {
     const [order, setOrder] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
     const getItem = async (id: number) => {
-        const { data } = await axios.get<IProduct>(`${PREFIX}/products/${id}`);
+        const { data } = await $api.get<IProduct>(`/products/${id}`);
         return data;
     };
     const loadAllItems = useCallback(async () => {
@@ -33,7 +34,7 @@ const Cart = () => {
         loadAllItems();
     }, [items, loadAllItems]);
     const priceOfAllItems = items.map(i => {
-        const product = cartProducts.find(p => p.id === i.id);
+        const product = cartProducts.find(p => p._id === i.id);
         if (!product)
             return 0;
         return product.price * i.count;
@@ -45,7 +46,7 @@ const Cart = () => {
             const { data } = await axios.post<IOrder>(`${PREFIX}/order`, {
                 total: priceOfAllItems + DELIVERY_PRICE,
                 products: items.map(i => {
-                    const product = cartProducts.find(p => p.id === i.id);
+                    const product = cartProducts.find(p => p._id === i.id);
                     if (!product)
                         return;
                     return {
@@ -78,13 +79,13 @@ const Cart = () => {
                 {items.length === 0 && <div className={styles['empty-cart']}>Ваша корзина пуста</div>}
                 {items.length !== 0 && <div className={styles.list}>
                     {items.map(i => {
-                        const product = cartProducts.find(p => p.id === i.id);
+                        const product = cartProducts.find(p => p._id === i.id);
                         if (!product) {
                             return;
                         }
                         return <CartItem
-                            key={product.id}
-                            id={product.id}
+                            key={product._id}
+                            id={product._id}
                             count={i.count}
                             image={product.image}
                             price={product.price}
