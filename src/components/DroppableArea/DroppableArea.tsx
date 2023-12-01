@@ -12,7 +12,7 @@ export const DroppableArea: FunctionComponent<IDroppableArea> = ({ children }) =
     const dispatch = useDispatch();
     const [{ canDrop, isOver }, drop] = useDrop({
         accept: Dnd.cartDragAndDrop,
-        drop: (product: IProduct) => dispatch(cartActions.addItem(product.id)),
+        drop: (product: IProduct) => dispatch(cartActions.addItem(product._id)),
         collect: (monitor: DropTargetMonitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop()

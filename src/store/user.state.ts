@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadState } from '../helpers/storage';
-import axios, { AxiosError } from 'axios';
 import { IAuthData } from '../interfaces/auth.interface';
-import { PREFIX } from '../helpers/API';
+import { API_URL, PREFIX } from '../helpers/API';
 import { IUserProfileData } from '../interfaces/user.interface';
 import { RootState } from './store';
-import { $api } from '../http';
+import axios, { AxiosError } from 'axios';
 
 
 export const JWT_PERSISTENT_STATE = 'userData';
@@ -25,7 +24,7 @@ const userInitialState: UserState = {
 export const login = createAsyncThunk('user/login',
     async (params: { email: string, password: string }) => {
         try {
-            const { data } = await $api.post<IAuthData>('/auth/login', {
+            const { data } = await axios.post<IAuthData>(`${API_URL}/auth/login`, {
                 email: params.email,
                 password: params.password
             }, {
@@ -41,7 +40,7 @@ export const login = createAsyncThunk('user/login',
 export const registerUser = createAsyncThunk('user/register',
     async (params: { email: string, password: string, name: string }) => {
         try {
-            const { data } = await $api.post<IAuthData>('/auth/registration', {
+            const { data } = await axios.post<IAuthData>(`${API_URL}/auth/registration`, {
                 email: params.email,
                 password: params.password,
                 name: params.name
@@ -59,7 +58,7 @@ export const registerUser = createAsyncThunk('user/register',
 export const logout = createAsyncThunk('user/logout',
     async () => {
         try {
-            const { data } = await $api.post<void>('/auth/logout');
+            const { data } = await axios.post<void>(`${API_URL}/auth/logout`, {}, { withCredentials: true });
             return data;
         }
         catch (e) {
@@ -90,6 +89,12 @@ const userSlice = createSlice({
         },
         cleanRegisterErrorMessage: (state) => {
             state.registerErrorMessage = undefined;
+        },
+        setToken: (state, action) => {
+            state.token = action.payload;
+        },
+        setLoginErrorMessage: (state, action) => {
+            state.loginErrorMessage = action.payload;
         }
     },
     extraReducers: (builder) => {

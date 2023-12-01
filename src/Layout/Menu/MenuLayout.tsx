@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/user.state';
-import { DroppableArea } from '../../components/DroppableItem/DroppableArea';
+import { DroppableArea } from '../../components/DroppableArea/DroppableArea';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useEffect } from 'react';
@@ -17,7 +17,6 @@ const MenuLayout = () => {
     const { token, userProfile } = useSelector((s: RootState) => s.user);
     const cartItems = useSelector((s: RootState) => s.cart.cartItems);
     const onLogout = () => {
-
         dispatch(logout());
     };
     useEffect(() => {
@@ -28,7 +27,7 @@ const MenuLayout = () => {
             <div className={styles.layout}>
                 <div className={styles.sidebar}>
                     <div className={styles.user}>
-                        <img src='../../../public/user-icon.png' alt='Иконка пользователя' />
+                        <img src='./user-icon.png' alt='Иконка пользователя' />
                         <div className={styles.name}>{userProfile?.name}</div>
                         <div className={styles.email}>{userProfile?.email}</div>
                     </div>
@@ -36,21 +35,21 @@ const MenuLayout = () => {
                         <NavLink to='/' className={({ isActive }) => cn(styles.link, {
                             [styles.active]: isActive
                         })}>
-                            <img src='../../../public//menu-icon.svg' alt='Иконка меню' />
+                            <img src='./menu-icon.svg' alt='Иконка меню' />
                             Главная
                         </NavLink>
                         <DroppableArea>
                             <NavLink to='/cart' className={({ isActive }) => cn(styles.link, {
                                 [styles.active]: isActive
                             })}>
-                                <img src='../../../public//cart-icon.svg' alt='Иконка корзины' />
+                                <img src='./cart-icon.svg' alt='Иконка корзины' />
                                 Корзина
                                 <div className={styles['cart-counter']}>{cartItems?.reduce((sum, item) => sum + item.count, 0)}</div>
                             </NavLink>
                         </DroppableArea>
                     </div>
                     <Button className={styles.exit} onClick={onLogout}>
-                        <img src='../../../public//exit-icon.svg' alt='Иконка выхода' />
+                        <img src='./exit-icon.svg' alt='Иконка выхода' />
                         Выход</Button>
                 </div>
                 <div className={styles.content}>

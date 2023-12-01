@@ -24,7 +24,7 @@ const Login = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             dispatch(userActions.cleanLoginErrorMessage());
-        }, 3000);
+        }, 4000);
         return () => clearTimeout(timer);
     }, [dispatch, loginErrorMessage]);
     // useEffect(() => {
