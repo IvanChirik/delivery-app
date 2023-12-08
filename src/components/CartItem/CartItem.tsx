@@ -2,16 +2,17 @@ import { useDispatch } from 'react-redux';
 import styles from './CartItem.module.css';
 import { ICartItem } from './CartItem.props';
 import cn from 'classnames';
-import { cartActions } from '../../store/cart.slice';
+import { addCartItem, cartActions, removeCartItem } from '../../store/cart.slice';
+import { AppDispatch } from '../../store/store';
 
 const CartItem = ({ ...props }: ICartItem) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { id, image, count, price, name } = props;
     const addItem = () => {
-        dispatch(cartActions.addItem(id));
+        dispatch(addCartItem({ productId: id }));
     };
     const removeItem = () => {
-        dispatch(cartActions.removeItem(id));
+        dispatch(removeCartItem({ productId: id }));
     };
     const deleteProductFromCart = () => {
         dispatch(cartActions.deleteProduct(id));

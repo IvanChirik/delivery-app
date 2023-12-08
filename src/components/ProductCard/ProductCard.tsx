@@ -3,7 +3,7 @@ import styles from './ProductCard.module.css';
 import { ProductCard } from './ProductCard.props';
 import { AppDispatch } from '../../store/store';
 import { useDispatch } from 'react-redux';
-import { cartActions } from '../../store/cart.slice';
+import { addCartItem } from '../../store/cart.slice';
 import { MouseEvent } from 'react';
 
 const ProductCard = (props: ProductCard) => {
@@ -11,7 +11,7 @@ const ProductCard = (props: ProductCard) => {
     const dispatch = useDispatch<AppDispatch>();
     const addToCart = (e: MouseEvent) => {
         e.preventDefault();
-        dispatch(cartActions.addItem(id));
+        dispatch(addCartItem({ productId: id }));
     };
     return (
         <div className={styles.card}>

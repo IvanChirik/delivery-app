@@ -44,7 +44,7 @@ const MenuLayout = () => {
                             })}>
                                 <img src='./cart-icon.svg' alt='Иконка корзины' />
                                 Корзина
-                                <div className={styles['cart-counter']}>{cartItems?.reduce((sum, item) => sum + item.count, 0)}</div>
+                                <div className={styles['cart-counter']}>{cartItems?.reduce((sum, item) => sum + item.quantity, 0)}</div>
                             </NavLink>
                         </DroppableArea>
                     </div>

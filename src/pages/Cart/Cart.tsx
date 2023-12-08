@@ -10,8 +10,8 @@ import { PREFIX } from '../../helpers/API';
 import CartItem from '../../components/CartItem/CartItem';
 import SuccessCart from '../../components/SuccessCart/SuccessCart';
 import { IOrder } from '../../interfaces/order.interface';
-import { cartActions } from '../../store/cart.slice';
 import { $api } from '../../http';
+import { clearCart } from '../../store/cart.slice';
 
 const DELIVERY_PRICE: number = 170;
 
@@ -22,22 +22,22 @@ const Cart = () => {
     const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
     const [order, setOrder] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
-    const getItem = async (id: number) => {
+    const getItem = async (id: string) => {
         const { data } = await $api.get<IProduct>(`/products/${id}`);
         return data;
     };
     const loadAllItems = useCallback(async () => {
-        const res = await Promise.all(items.map(i => getItem(i.id)));
+        const res = await Promise.all(items.map(i => getItem(i.productId)));
         setCartProducts(res);
     }, [items]);
     useEffect(() => {
         loadAllItems();
     }, [items, loadAllItems]);
     const priceOfAllItems = items.map(i => {
-        const product = cartProducts.find(p => p._id === i.id);
+        const product = cartProducts.find(p => p._id === i.productId);
         if (!product)
             return 0;
-        return product.price * i.count;
+        return product.price * i.quantity;
 
     }).reduce((sum, item) => (sum + item), 0);
     const checkout = async () => {
@@ -46,12 +46,12 @@ const Cart = () => {
             const { data } = await axios.post<IOrder>(`${PREFIX}/order`, {
                 total: priceOfAllItems + DELIVERY_PRICE,
                 products: items.map(i => {
-                    const product = cartProducts.find(p => p._id === i.id);
+                    const product = cartProducts.find(p => p._id === i.productId);
                     if (!product)
                         return;
                     return {
-                        id: i.id,
-                        count: i.count,
+                        id: i.productId,
+                        count: i.quantity,
                         price: product.price
                     };
                 })
@@ -61,7 +61,7 @@ const Cart = () => {
                 }
             });
             setOrder(true);
-            dispatch(cartActions.clear());
+            dispatch(clearCart());
             return data;
         }
         catch (e) {
@@ -79,14 +79,14 @@ const Cart = () => {
                 {items.length === 0 && <div className={styles['empty-cart']}>Ваша корзина пуста</div>}
                 {items.length !== 0 && <div className={styles.list}>
                     {items.map(i => {
-                        const product = cartProducts.find(p => p._id === i.id);
+                        const product = cartProducts.find(p => p._id === i.productId);
                         if (!product) {
                             return;
                         }
                         return <CartItem
                             key={product._id}
                             id={product._id}
-                            count={i.count}
+                            count={i.quantity}
                             image={product.image}
                             price={product.price}
                             name={product.name}
@@ -123,3 +123,4 @@ const Cart = () => {
 };
 
 export default Cart;
+
