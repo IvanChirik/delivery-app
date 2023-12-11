@@ -11,12 +11,13 @@ import CartItem from '../../components/CartItem/CartItem';
 import SuccessCart from '../../components/SuccessCart/SuccessCart';
 import { IOrder } from '../../interfaces/order.interface';
 import { $api } from '../../http';
-import { clearCart } from '../../store/cart.slice';
+import { cartActions, clearCart } from '../../store/cart.slice';
 
 const DELIVERY_PRICE: number = 170;
 
 const Cart = () => {
     const items = useSelector((s: RootState) => s.cart.cartItems);
+    const totalPrice = useSelector((s: RootState) => s.cart.totalPrice);
     const token = useSelector((s: RootState) => s.user.token);
     const dispatch = useDispatch<AppDispatch>();
     const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
@@ -30,6 +31,13 @@ const Cart = () => {
         const res = await Promise.all(items.map(i => getItem(i.productId)));
         setCartProducts(res);
     }, [items]);
+    const getCart = useCallback(async () => {
+        const { data } = await $api.get('/cart');
+        dispatch(cartActions.getCart(data));
+    }, [dispatch]);
+    useEffect(() => {
+        getCart();
+    }, [getCart]);
     useEffect(() => {
         loadAllItems();
     }, [items, loadAllItems]);
@@ -99,15 +107,15 @@ const Cart = () => {
                 <div className={styles.footer}>
                     <div className={styles.calculate}>
                         <div>Стоимость товаров</div>
-                        <div className={styles.itog}>{priceOfAllItems}&nbsp;<span>₽</span></div>
+                        <div className={styles.itog}>{totalPrice}&nbsp;<span>₽</span></div>
                     </div>
                     <div className={styles.calculate}>
                         <div>Доставка</div>
-                        <div className={styles.itog}>{priceOfAllItems ? DELIVERY_PRICE : 0}&nbsp;<span>₽</span></div>
+                        <div className={styles.itog}>{totalPrice ? DELIVERY_PRICE : 0}&nbsp;<span>₽</span></div>
                     </div>
                     <div className={styles.calculate}>
                         <div>Итог&nbsp;<span>({items.length})</span></div>
-                        <div className={styles.itog}>{priceOfAllItems ? priceOfAllItems + DELIVERY_PRICE : 0}&nbsp;<span>₽</span></div>
+                        <div className={styles.itog}>{totalPrice ? totalPrice + DELIVERY_PRICE : 0}&nbsp;<span>₽</span></div>
                     </div>
                 </div>
                 <Button

@@ -120,6 +120,7 @@ const userSlice = createSlice({
             state.registerErrorMessage = action.error.message;
         });
         builder.addCase(logout.fulfilled, (state) => {
+            localStorage.clear();
             state.token = null;
             state.userProfile = undefined;
         });

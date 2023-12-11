@@ -14,8 +14,8 @@ import { useEffect } from 'react';
 const MenuLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const totalCartItems = useSelector((s: RootState) => s.cart.total);
     const { token, userProfile } = useSelector((s: RootState) => s.user);
-    const cartItems = useSelector((s: RootState) => s.cart.cartItems);
     const onLogout = () => {
         dispatch(logout());
     };
@@ -44,7 +44,7 @@ const MenuLayout = () => {
                             })}>
                                 <img src='./cart-icon.svg' alt='Иконка корзины' />
                                 Корзина
-                                <div className={styles['cart-counter']}>{cartItems?.reduce((sum, item) => sum + item.quantity, 0)}</div>
+                                <div className={styles['cart-counter']}>{totalCartItems}</div>
                             </NavLink>
                         </DroppableArea>
                     </div>

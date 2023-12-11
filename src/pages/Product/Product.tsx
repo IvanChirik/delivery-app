@@ -6,7 +6,7 @@ import Heading from '../../components/Heading/Heading';
 import Button from '../../components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { cartActions } from '../../store/cart.slice';
+import { addCartItem } from '../../store/cart.slice';
 import Loader from '../../components/Loader/Loader';
 
 const Product = () => {
@@ -26,7 +26,7 @@ const Product = () => {
                         </button>
                         <Heading className={styles.name}>{data.name}</Heading>
                         <Button className={styles['cart-button']} onClick={() => {
-                            dispatch(cartActions.addItem(data._id));
+                            dispatch(addCartItem({ productId: data._id }));
                         }}>
                             <img src='/white-cart-icon.svg' alt={'Иконка корзины'} />
                             <span>В корзину</span>
