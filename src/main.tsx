@@ -17,6 +17,7 @@ import { store } from './store/store.ts';
 import Loader from './components/Loader/Loader.tsx';
 import { $api } from './http/index.ts';
 import Heading from './components/Heading/Heading.tsx';
+import Success from './pages/Success/Success.tsx';
 
 const LOADER_STYLES = {
   width: '100%',
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />
+      },
+      {
+        path: 'success',
+        element: <Success />
       },
       {
         path: '*',

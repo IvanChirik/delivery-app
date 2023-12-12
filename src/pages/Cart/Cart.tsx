@@ -8,10 +8,10 @@ import axios, { AxiosError } from 'axios';
 import { IProduct } from '../../interfaces/product.interface';
 import { PREFIX } from '../../helpers/API';
 import CartItem from '../../components/CartItem/CartItem';
-import SuccessCart from '../../components/SuccessCart/SuccessCart';
 import { IOrder } from '../../interfaces/order.interface';
 import { $api } from '../../http';
 import { cartActions, clearCart } from '../../store/cart.slice';
+import { useNavigate } from 'react-router-dom';
 
 const DELIVERY_PRICE: number = 170;
 
@@ -21,7 +21,7 @@ const Cart = () => {
     const token = useSelector((s: RootState) => s.user.token);
     const dispatch = useDispatch<AppDispatch>();
     const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
-    const [order, setOrder] = useState<boolean>(false);
+    const navigate = useNavigate();
     const [error, setError] = useState<string | undefined>();
     const getItem = async (id: string) => {
         const { data } = await $api.get<IProduct>(`/products/${id}`);
@@ -68,8 +68,8 @@ const Cart = () => {
                     Authorization: 'Bearer ' + token
                 }
             });
-            setOrder(true);
             dispatch(clearCart());
+            navigate('/success');
             return data;
         }
         catch (e) {
@@ -81,8 +81,7 @@ const Cart = () => {
     };
     return (
         <>
-            {order && <SuccessCart />}
-            {!order && <div className={styles.cart}>
+            <div className={styles.cart}>
                 <Heading>Корзина</Heading>
                 {items.length === 0 && <div className={styles['empty-cart']}>Ваша корзина пуста</div>}
                 {items.length !== 0 && <div className={styles.list}>
@@ -124,7 +123,6 @@ const Cart = () => {
                     disabled={!items.length}
                     onClick={checkout}>Оформить</Button>
             </div>
-            }
             {error && <div>{error}</div>}
         </>
     );

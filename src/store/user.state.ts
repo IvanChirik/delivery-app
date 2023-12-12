@@ -7,6 +7,7 @@ import { RootState } from './store';
 import axios, { AxiosError } from 'axios';
 
 
+
 export const JWT_PERSISTENT_STATE = 'userData';
 export type UserState = {
     token: string | null,
@@ -120,7 +121,6 @@ const userSlice = createSlice({
             state.registerErrorMessage = action.error.message;
         });
         builder.addCase(logout.fulfilled, (state) => {
-            localStorage.clear();
             state.token = null;
             state.userProfile = undefined;
         });

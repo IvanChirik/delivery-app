@@ -48,7 +48,7 @@ const Menu = () => {
                 <Search placeholder='Введите блюдо или состав' onChange={filterProducts} />
             </div>
             <div className={cn(styles['content-menu'], {
-                [styles.loading]: isLoading
+                [styles.loading]: isLoading || products?.length == 0
             })}>
                 {error && <p>{error}</p>}
                 {isLoading && <Loader />}
@@ -61,7 +61,7 @@ const Menu = () => {
                     name={product.name}
                     description={product.ingredients.join(', ')} />
                 </DraggableItem>)}
-                {!isLoading && products?.length === 0 && <div>Не найдено блюд с такими названием и составом</div>}
+                {!isLoading && products?.length === 0 && <div className={styles['not-dish']}>Не найдено блюд с такими названием и составом</div>}
             </div>
         </>
     );

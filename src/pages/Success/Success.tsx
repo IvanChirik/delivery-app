@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import Button from '../Button/Button';
-import styles from './SuccessCart.module.css';
-import { ICartSuccess } from './SuccessCart.props';
+import Button from '../../components/Button/Button';
+import styles from './Success.module.css';
+import { ISuccess } from './Success.props';
 import cn from 'classnames';
 
-const SuccessCart = ({ className, ...props }: ICartSuccess) => {
+const Success = ({ className, ...props }: ISuccess) => {
     const navigate = useNavigate();
     const returnToMenuPage = () => {
         navigate('/');
@@ -25,4 +25,4 @@ const SuccessCart = ({ className, ...props }: ICartSuccess) => {
     );
 };
 
-export default SuccessCart;
+export default Success;

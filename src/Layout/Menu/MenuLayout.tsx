@@ -9,6 +9,7 @@ import { DroppableArea } from '../../components/DroppableArea/DroppableArea';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useEffect } from 'react';
+import { cartActions } from '../../store/cart.slice';
 
 
 const MenuLayout = () => {
@@ -18,6 +19,7 @@ const MenuLayout = () => {
     const { token, userProfile } = useSelector((s: RootState) => s.user);
     const onLogout = () => {
         dispatch(logout());
+        dispatch(cartActions.clearLocalCart());
     };
     useEffect(() => {
         !token && navigate('/auth/login');

@@ -59,6 +59,17 @@ export const removeCartItem = createAsyncThunk('cart/removeItem',
         }
 
     });
+export const deleteProduct = createAsyncThunk('cart/deleteProduct',
+    async (params: { productId: string }) => {
+        try {
+            const { data } = await axios.post<ICartApi>(`${API_URL}/cart/delete-product`, { id: params.productId }, setHeaders());
+            return data;
+        } catch (error) {
+            if (error instanceof AxiosError)
+                throw new Error(error.response?.data.message);
+        }
+
+    });
 export const clearCart = createAsyncThunk('cart/clearCart',
     async () => {
         try {
@@ -78,10 +89,10 @@ export const cartSlice = createSlice({
             state.total = action.payload.total;
             state.totalPrice = action.payload.totalPrice;
         },
-        deleteProduct: (state, action: PayloadAction<string>) => {
-            if (!(state.cartItems.find(i => i.productId === action.payload)))
-                return;
-            state.cartItems = state.cartItems.filter(i => i.productId !== action.payload);
+        clearLocalCart: (state) => {
+            state.cartItems = [];
+            state.total = 0;
+            state.totalPrice = 0;
         }
     },
     extraReducers: (builder) => {
@@ -113,6 +124,16 @@ export const cartSlice = createSlice({
             state.totalPrice = action.payload.totalPrice;
         });
         builder.addCase(removeCartItem.rejected, (_, action) => {
+            console.log(action.error.message);
+        });
+        builder.addCase(deleteProduct.fulfilled, (state, action) => {
+            if (!action.payload)
+                return;
+            state.cartItems = action.payload.products;
+            state.total = action.payload.total;
+            state.totalPrice = action.payload.totalPrice;
+        });
+        builder.addCase(deleteProduct.rejected, (_, action) => {
             console.log(action.error.message);
         });
         builder.addCase(clearCart.fulfilled, (state, action) => {
