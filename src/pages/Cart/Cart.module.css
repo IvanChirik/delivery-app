@@ -85,3 +85,9 @@
     width: 80%;
     align-self: center;
 }
+
+.error {
+    align-self: center;
+    color: var(--text-secondary-color);
+    font-size: 22px;
+}

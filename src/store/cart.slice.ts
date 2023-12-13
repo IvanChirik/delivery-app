@@ -73,7 +73,7 @@ export const deleteProduct = createAsyncThunk('cart/deleteProduct',
 export const clearCart = createAsyncThunk('cart/clearCart',
     async () => {
         try {
-            const { data } = await axios.get<ICartApi>(`${API_URL}/cart/clear`, { withCredentials: true });
+            const { data } = await axios.get<ICartApi>(`${API_URL}/cart/clear`, setHeaders());
             return data;
         } catch (error) {
             if (error instanceof AxiosError)
@@ -140,6 +140,8 @@ export const cartSlice = createSlice({
             if (!action.payload)
                 return;
             state.cartItems = action.payload.products;
+            state.total = action.payload.total;
+            state.totalPrice = action.payload.totalPrice;
         });
         builder.addCase(clearCart.rejected, (_, action) => {
             console.log(action.error.message);

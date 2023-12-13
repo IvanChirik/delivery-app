@@ -32,7 +32,10 @@ $api.interceptors.response.use((config) => {
                 console.log('Не авторизован');
             }
         }
-        store.dispatch(userActions.setToken(null));
-        store.dispatch(userActions.setLoginErrorMessage(error.response.data.message));
-        throw error;
+        else if (error.response.status === 401) {
+            store.dispatch(userActions.setToken(null));
+            store.dispatch(userActions.setLoginErrorMessage(error.response.data.message));
+        }
+        else
+            throw new Error(error.response?.data.message);
     });

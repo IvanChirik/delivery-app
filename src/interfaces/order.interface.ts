@@ -1,10 +1,10 @@
 export interface IOrderData {
-    id: number,
-    count: number,
-    price: number
+    _id: string,
+    productId: string,
+    quantity: number
 }
 export interface IOrder {
-    id: number,
+    _id: string,
     userId: number,
     status: string,
     createdAt: string,
